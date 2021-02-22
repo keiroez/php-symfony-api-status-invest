@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Index - B3{% endblock %}
+
+{% block body %}
+    <div class="container d-flex justify-content-center p-5">
+        <div class="col-md-4">
+            <form action="/busca" method="GET">
+                <div class="form-group">
+                    <div class="d-flex justify-content-center">
+                        <label for="exampleFormControlInput1">Ticker da empresa</label>
+                    </div>
+                    <input type="text" class="form-control" id="code" name="code" placeholder="Digite o ticker">
+                    <div class="d-flex justify-content-center p-2">
+                        <button type="submit" class="btn btn-primary mb-2 ">Buscar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

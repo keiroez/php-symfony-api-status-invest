@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Resultados - B3{% endblock %}
+
+{% block body %}
+    <div class="row m-3">
+        <div class="row">
+            <div class="col-md-4">
+                <form action="/busca" method="GET">
+                    <div class="form-group">
+                        <div>
+                            <label for="exampleFormControlInput1">Ticker da empresa</label>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="code" name="code"
+                                       placeholder="Digite o ticker">
+                            </div>
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-primary mb-2 ">Buscar</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-8 pl-5">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="text-center">Fonte: Status Invest</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="text-center" id="data"></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if response['status'] == 'sucesso' %}
+            {% for empresa in response['content'] %}
+                <div class="card col-12 col-md-6">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ empresa['nameFormated'] }}</h5>
+                        <p class="card-text">Preço: R$ {{ empresa['price'] }}</p>
+                        <p class="card-text {% if empresa['variationUp'] %}text-success{% elseif empresa['variation']|number_format == 0 %}text-primary{% else %}text-danger{% endif %}">
+                            Variação: {{ empresa['variation']|number_format(2, ',', '.') }}%</p>
+                        <a href="https://statusinvest.com.br{{ empresa['url'] }}" class="card-link" target="_blank">Mais
+                            detalhes</a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="card col-12 col-md-12 text-center">
+                <div class="card-body">
+                    <h5 class="card-title">{{ response['status'] }}</h5>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <script>
+        var d = new Date();
+        var n = d.toLocaleString('pt-BR', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'});
+        document.querySelector("#data").innerHTML = n;
+    </script>
+{% endblock %}
+
+
+
